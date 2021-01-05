@@ -69,7 +69,7 @@ class Overview extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.monthly_income === 0) 
+        if(this.state.monthly_income === 0 || prevProps.monthly_income !== this.props.monthly_income) 
             this.setState({monthly_income: this.props.monthly_income })
     }
 
@@ -144,7 +144,6 @@ const mapStateToProps = state => {
     return { 
         budgets: Object.values(state.budgets), 
         transactions: Object.values(state.transactions),
-        incomes: Object.values(state.incomes),
         userId: state.auth.userId,
         monthly_income: state.user.monthly_income
     }

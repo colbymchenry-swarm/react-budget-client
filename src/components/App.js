@@ -8,6 +8,7 @@ import ListBudgets from './pages/budgets'
 import CreateBudget from './pages/budgets/create'
 import EditBudget from './pages/budgets/edit'
 import CreateTransaction from './pages/transactions/create'
+import ListTransactions from './pages/transactions'
 
 class App extends React.Component {
     render() {
@@ -22,6 +23,7 @@ class App extends React.Component {
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/create" exact component={CreateBudget} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/edit/:id" exact component={EditBudget} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/transactions/create" exact component={CreateTransaction} />
+                            <PrivateRoute authed={this.props.isSignedIn} path="/transactions/view/:id" exact component={ListTransactions} />
                         </Switch>
                     </div>
                 </Router>

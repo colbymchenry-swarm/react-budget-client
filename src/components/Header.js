@@ -22,15 +22,15 @@ class Header extends React.Component {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link to="/dashboard" className="nav-link" onClick={this.clickedLink}>Dashboard</Link>
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                             <Link to="/budgets/list" className="nav-link" onClick={this.clickedLink}>Budgets</Link>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link to="/income/create" className="nav-link" onClick={this.clickedLink}>Add Income</Link>
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                             <GoogleAuth />
                         </li>

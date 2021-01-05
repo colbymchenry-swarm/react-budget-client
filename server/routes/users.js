@@ -23,12 +23,13 @@ router.get('/get', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	try {
 		await updateUser(res.locals.connection, req.body)
+		const user = await getUser(res.locals.connection, req.body.google_id)
+		res.send(JSON.stringify({ ...user, success: true, msg: 'User updated successfully.' }))
+
 	} catch(err) {
-		console.log(err)
 		res.send(JSON.stringify({ success: false, msg: 'Failed to update user.' }))
 	}
 
-	res.send(JSON.stringify({ success: true, msg: 'User updated successfully.' }))
 })
 
 getUser = async (db, google_id) =>  {
@@ -48,6 +49,5 @@ updateUser = async (db, { google_id, monthlyIncome }) => {
 		userData = await db.query(`UPDATE users SET monthly_income='${monthlyIncome}' WHERE google_id='${google_id}'`) 
 	}
 }
-  
 
 module.exports = router;

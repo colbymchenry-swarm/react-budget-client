@@ -40,6 +40,8 @@ export const createUser = (formValues) => async (dispatch, getState) => {
     const { userId } = getState().auth
     const response = await users.post('/', { ...formValues, google_id: userId })
 
+    console.log(response.data)
+
     dispatch({
         type: CREATE_USER,
         payload: response.data
@@ -121,7 +123,7 @@ export const createTransaction = formValues => async (dispatch, getState) => {
     history.push('/dashboard')
 }
 
-export const deleteTransaction = id => async dispatch => {
+export const deleteTransaction = (id, budget_id) => async dispatch => {
     await transactions.post('/delete', { id })
 
     dispatch({
@@ -129,7 +131,7 @@ export const deleteTransaction = id => async dispatch => {
         payload: id
     })
 
-    history.push('/dashboard')
+    history.push(`/transactions/view/${budget_id}`)
 }
 
 export const fetchTransactions = () => async (dispatch, getState) => {

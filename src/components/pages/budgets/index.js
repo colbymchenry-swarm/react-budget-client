@@ -47,9 +47,9 @@ class ListBudgets extends React.Component {
                     <table className="table">
                         <thead className="thead-dark">
                             <tr>
-                                <th scope="col-6">Name</th>
-                                <th scope="col-5">Amount</th>
-                                <th scope="col-1">Fixed</th>
+                                <th className="col-6">Name</th>
+                                <th className="col-5">Amount</th>
+                                <th className="col-1">Fixed</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { CREATE_USER, FETCH_USER } from '../actions/types'
 
 const handler = (state = {}, action) => {

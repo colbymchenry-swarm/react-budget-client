@@ -46,7 +46,7 @@ class ListBudgets extends React.Component {
             return (
                 <tr key={budget.id}>
                     <th scope="row">
-                        <span style={{ height: '8px' }}>{budget.name}</span>
+                        <span style={{ height: '8px' }}><Link to={`/transactions/view/${budget.id}`}>{budget.name}</Link></span>
                         <br />
                         <div className="progress">
                             <div className="progress-bar" role="progressbar" aria-valuenow={percentage} aria-valuemin="0" aria-valuemax="100" style={{ width: `${percentage}%` }}></div>
