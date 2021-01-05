@@ -18,10 +18,11 @@ import {
 } from './types'
 
 import budgets from '../apis/budgets'
+import users from '../apis/users'
 import history from '../history'
 
-export const signIn = (userId) => {
-    return {
+export const signIn = userId => {
+   return {
         type: SIGN_IN,
         payload: userId
     }
@@ -32,6 +33,14 @@ export const signOut = () => {
         type: SIGN_OUT
     }
 }
+
+
+export const createUser = (formValues) => async (dispatch, getState) => {
+    const { userId } = getState().auth
+    const response = await users.post('/', { ...formValues, google_id: userId })
+}
+
+
 
 export const fetchUsers = () => async dispatch => {
     const response = await budgets.get('/users')

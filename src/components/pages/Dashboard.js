@@ -1,15 +1,18 @@
 import React from 'react'
-import ListBudgets from './dashboard_comps/ListBudgets'
-import Overview from './dashboard_comps/Overview'
+import { connect } from 'react-redux'
+import { createUser } from '../../actions'
 
-const Dashboard = () => {
-    return (
-        <React.Fragment>
-            <Overview />
-            <br />
-            <ListBudgets />
-        </React.Fragment>
-    )
+class Dashboard extends React.Component {
+
+    componentDidMount() {
+        this.props.createUser({ monthlyIncome: 1000.0 })
+    }
+
+    render(){
+        return (
+            <div>Dashboard</div>
+        )
+    }
 }
 
-export default Dashboard
+export default connect(null, { createUser })(Dashboard)
