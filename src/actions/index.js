@@ -12,7 +12,8 @@ import {
     CREATE_INCOME,
     DELETE_INCOME,
     FETCH_INCOMES,
-    FETCH_USERS,
+    CREATE_USER,
+    FETCH_USER,
     SET_MONTHLY_INCOME,
     FETCH_MONTHLY_INCOME
 } from './types'
@@ -38,6 +39,21 @@ export const signOut = () => {
 export const createUser = (formValues) => async (dispatch, getState) => {
     const { userId } = getState().auth
     const response = await users.post('/', { ...formValues, google_id: userId })
+
+    dispatch({
+        type: CREATE_USER,
+        payload: response.data
+    })
+}
+
+export const fetchUser = () => async (dispatch, getState) => {
+    const { userId } = getState().auth
+    const response = await users.get('/get', { params: { google_id: userId } })
+
+    dispatch({
+        type: FETCH_USER,
+        payload: response.data
+    })
 }
 
 export const createBudget = formValues => async (dispatch, getState) => {
@@ -93,8 +109,6 @@ export const editBudget = (id, formValues) => async dispatch => {
     history.push('/budgets/list')
 }
 
-
-
 export const createTransaction = formValues => async (dispatch, getState) => {
     const { userId } = getState().auth
     const response = await transactions.post('/', { ...formValues, google_id: userId })
@@ -126,70 +140,4 @@ export const fetchTransactions = () => async (dispatch, getState) => {
         type: FETCH_TRANSACTIONS,
         payload: response.data
     })
-}
-
-
-export const createIncome = formValues => async (dispatch, getState) => {
-    // const { userId } = getState().auth
-    // const date = new Date().getTime()
-    // const response = await budgets.post('/incomes', { ...formValues, userId, date })
-
-    // dispatch({
-    //     type: CREATE_INCOME,
-    //     payload: response.data
-    // })
-
-    // history.push('/dashboard')
-}
-
-export const fetchIncomes = () => async dispatch => {
-    // const response = await budgets.get('/incomes')
-
-    // dispatch({
-    //     type: FETCH_INCOMES,
-    //     payload: response.data
-    // })
-}
-
-export const deleteIncome = id => async dispatch => {
-    // await budgets.delete(`/incomes/${id}`)
-
-    // dispatch({
-    //     type: DELETE_INCOME,
-    //     payload: id
-    // })
-
-    // history.push('/dashboard')
-}
-
-export const setMonthlyIncome = (id, formValues) => async (dispatch, getState) => {
-    // const { userId } = getState().auth
-    // let response = null;
-
-    // if(id !== null) {
-    //     response = await budgets.patch(`/users/${id}`, { ...formValues, userId })
-    // } else {
-    //     response = await budgets.post(`/users`, { ...formValues, userId })
-    // }
-
-    // dispatch({
-    //     type: SET_MONTHLY_INCOME,
-    //     payload: response.data
-    // })
-}
-
-export const fetchMonthlyIncome = (id) => async dispatch => {
-    // try {
-    //     const response = await budgets.get(`/users/${id}`).then(({json}) => {
-    //         if(json.data.statusCode != 200) {
-    //             // invalid
-    //         }
-    //      })
-    //     dispatch({
-    //         type: FETCH_MONTHLY_INCOME,
-    //         payload: response.data
-    //     })
-    // } catch (err) {
-    //     console.log(err)
-    // }
 }

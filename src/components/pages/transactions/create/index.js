@@ -11,8 +11,7 @@ class CreateTransaction extends React.Component {
         this.descriptionRef = React.createRef()
 
         this.state = {
-            selectedBudget: null,
-            synced: false
+            selectedBudget: -1
         }
     }
 
@@ -39,16 +38,10 @@ class CreateTransaction extends React.Component {
         });
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (!state.synced) {
-            let default_budget = props.budgets.find(budget => !budget.fixed)
-            // -1 for a budget id for a transaction means it is an the unknown category
-            return {
-                selectedBudget: default_budget === undefined ? -1 : default_budget.id,
-                synced: true
-            }
-        } else {
-            return state
+    componentDidUpdate(prevProps, prevState) {
+        if(this.state.selectedBudget === -1) {
+            let default_budget = this.props.budgets.find(budget => !budget.fixed)
+            this.setState({selectedBudget: default_budget === undefined ? -1 : default_budget.id })
         }
     }
 
@@ -77,7 +70,7 @@ class CreateTransaction extends React.Component {
                             <label>Budget</label>
                             <select className="form-control" onChange={e => this.handleChange(e)}>
                                 {dropdown}
-                                <option key={-1} value={-1}>Unknown</option>
+                                <option key={-1} value={-1}>Fun Money</option>
                             </select>
                         </div>
                         <div className="form-group">

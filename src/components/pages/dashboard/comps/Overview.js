@@ -1,13 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchBudgets, fetchTransactions, fetchIncomes } from '../../../../actions'
+import { fetchBudgets, fetchTransactions } from '../../../../actions'
+import SetIncome from './SetIncome'
 
 class Overview extends React.Component {
+
+    state = {
+        monthly_income: 0
+    }
 
     componentDidMount() {
         this.props.fetchBudgets()
         this.props.fetchTransactions()
-        this.props.fetchIncomes()
     }
 
     spendingData() {
@@ -16,7 +20,7 @@ class Overview extends React.Component {
         let now = new Date()
 
         this.props.transactions.forEach(transaction => {
-            let date = new Date(transaction.date)
+            let date = new Date(transaction.timestamp)
             if (date.getMonth() === now.getMonth() && transaction.google_id == this.props.userId) {
                 totalSpending += parseInt(transaction.amount)
             }
@@ -34,6 +38,40 @@ class Overview extends React.Component {
         return { totalSpending, totalBudget, percentage }
     }
 
+    funMoneyData() {
+        let now = new Date()
+
+        let funMoneySpent = 0
+        // total fun money spent
+        this.props.transactions.forEach(transaction => {
+            let date = new Date(transaction.timestamp)
+            if (date.getMonth() === now.getMonth() && transaction.budget_id == -1
+                && transaction.google_id == this.props.userId) {
+                    funMoneySpent += parseInt(transaction.amount)
+            }
+        })
+
+
+        let totalBudget = 0
+        // add up fixed budget amounts
+        this.props.budgets.forEach(budget => {
+            if (budget.google_id == this.props.userId) {
+                totalBudget += parseInt(budget.amount)
+            }
+        })
+
+        let funMoneyAllowance = this.state.monthly_income - totalBudget
+
+        let percentage = funMoneySpent / funMoneyAllowance
+        percentage = percentage === Infinity ? 0 : percentage * 100
+
+        return { percentage, funMoneyAllowance, funMoneySpent }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.state.monthly_income === 0) 
+            this.setState({monthly_income: this.props.monthly_income })
+    }
 
     daysInThisMonth() {
         var now = new Date();
@@ -44,6 +82,7 @@ class Overview extends React.Component {
         let now = new Date()
         let todayPercentage = (now.getDate() / this.daysInThisMonth()) * 100
         let { totalSpending, totalBudget, percentage } = this.spendingData()
+        let funMondayData = this.funMoneyData()
 
         return (
             <div className="card">
@@ -57,7 +96,7 @@ class Overview extends React.Component {
 
                 <div className="card-body">
 
-                    
+                    <SetIncome />
 
                     <table className="table">
                         <tbody>
@@ -76,6 +115,22 @@ class Overview extends React.Component {
                                     <small className="form-text text-muted">${totalBudget}</small>
                                 </td>
                             </tr>
+
+                            <tr>
+                                <th className="col-10" scope="row">
+                                    <span style={{ height: '8px' }}>Fun Money</span>
+                                    <br />
+                                    <div className="progress">
+                                        <div className="progress-bar" role="progressbar" aria-valuenow={funMondayData.percentage} aria-valuemin="0" aria-valuemax="100" style={{ width: `${funMondayData.percentage}%` }}></div>
+                                        <div style={{ width: '2px', height: '20px', position: 'absolute', background: 'black', left: `${todayPercentage}%`, top: '-2px' }}></div>
+                                    </div>
+                                </th>
+                                <td className="col-2">
+                                    ${funMondayData.funMoneySpent}
+                                    <br />
+                                    <small className="form-text text-muted">${funMondayData.funMoneyAllowance}</small>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -90,9 +145,10 @@ const mapStateToProps = state => {
         budgets: Object.values(state.budgets), 
         transactions: Object.values(state.transactions),
         incomes: Object.values(state.incomes),
-        userId: state.auth.userId
+        userId: state.auth.userId,
+        monthly_income: state.user.monthly_income
     }
 }
 
-export default connect(mapStateToProps, { fetchBudgets, fetchTransactions, fetchIncomes })(Overview)
+export default connect(mapStateToProps, { fetchBudgets, fetchTransactions })(Overview)
 
