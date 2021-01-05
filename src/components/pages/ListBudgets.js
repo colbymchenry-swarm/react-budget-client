@@ -13,8 +13,9 @@ class ListBudgets extends React.Component {
             return <div>Loading...</div>
         }
 
+
        return this.props.budgets.map(budget => {
-           if (budget.userId === this.props.userId) {
+           if (budget.google_id === this.props.userId) {
                let fixedClass = budget.fixed ? 'fas fa-check' : 'fas fa-times'
                let fixedStyle = budget.fixed ? { color: 'green' } : { color: 'red' }
             return (

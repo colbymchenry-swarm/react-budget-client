@@ -10,8 +10,10 @@ var usersRouter = require('./routes/users')
 var budgetsRouter = require('./routes/budgets')
 var transactionsRouter = require('./routes/transactions')
 var cors = require('cors')
-var mysql = require('mysql');
+const util = require( 'util' )
+var mysql = require('mysql')
 var app = express();
+
 app.set('trust proxy', 1) // trust first proxy
 app.use(cors())
 app.use(cookieSession({
@@ -32,15 +34,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var database = mysql.createConnection({
+var database = makeDb({
   host     : 'localhost',
   user     : 'root',
   password : 'root',
   port     : 8889,
   database : 'budget'
 })
-
-database.connect()
 
 createTables()
 
@@ -79,4 +79,17 @@ function createTables() {
   database.query('CREATE TABLE IF NOT EXISTS users (google_id varchar(25) NOT NULL, monthly_income double, PRIMARY KEY (google_id))')
   database.query('CREATE TABLE IF NOT EXISTS budgets (id int NOT NULL AUTO_INCREMENT, name varchar(255), amount double, fixed bool, google_id varchar(25) NOT NULL, PRIMARY KEY (id))')
   database.query('CREATE TABLE IF NOT EXISTS transactions (id int NOT NULL AUTO_INCREMENT, budget_id int, amount double, timestamp DATE, google_id varchar(25) NOT NULL, PRIMARY KEY (id))')
+}
+
+function makeDb( config ) {
+  const connection = mysql.createConnection( config );
+  return {
+    query( sql, args ) {
+      return util.promisify( connection.query )
+        .call( connection, sql, args );
+    },
+    close() {
+      return util.promisify( connection.end ).call( connection );
+    }
+  };
 }

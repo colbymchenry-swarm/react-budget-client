@@ -5,7 +5,8 @@ import { createUser } from '../../actions'
 class Dashboard extends React.Component {
 
     componentDidMount() {
-        this.props.createUser({ monthlyIncome: 1000.0 })
+        // we use -5555.0 to create a user in the DB if the user does not exist
+        this.props.createUser({ monthlyIncome: -5555.0 })
     }
 
     render(){

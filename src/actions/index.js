@@ -40,20 +40,9 @@ export const createUser = (formValues) => async (dispatch, getState) => {
     const response = await users.post('/', { ...formValues, google_id: userId })
 }
 
-
-
-export const fetchUsers = () => async dispatch => {
-    const response = await budgets.get('/users')
-
-    dispatch({
-        type: FETCH_USERS,
-        payload: response.data
-    })
-}
-
 export const createBudget = formValues => async (dispatch, getState) => {
     const { userId } = getState().auth
-    const response = await budgets.post('/budgets', { ...formValues, userId })
+    const response = await budgets.post('/', { ...formValues, google_id: userId })
 
     dispatch({
         type: CREATE_BUDGET,
@@ -63,17 +52,8 @@ export const createBudget = formValues => async (dispatch, getState) => {
     history.push('/budgets/list')
 }
 
-export const fetchBudgets = () => async dispatch => {
-    const response = await budgets.get('/budgets')
-
-    dispatch({
-        type: FETCH_BUDGETS,
-        payload: response.data
-    })
-}
-
 export const fetchBudget = id => async dispatch => {
-    const response = await budgets.get(`/budgets/${id}`)
+    const response = await budgets.get(`/get`, { params: { id } })
 
     dispatch({
         type: FETCH_BUDGET,
@@ -81,8 +61,29 @@ export const fetchBudget = id => async dispatch => {
     })
 }
 
+export const fetchBudgets = () => async (dispatch, getState) => {
+    const { userId } = getState().auth
+    const response = await budgets.get('/list', { params: { google_id: userId } })
+
+    dispatch({
+        type: FETCH_BUDGETS,
+        payload: response.data
+    })
+}
+
+export const deleteBudget = id => async dispatch => {
+    await budgets.post('/delete', { id })
+
+    dispatch({
+        type: DELETE_BUDGET,
+        payload: id
+    })
+
+    history.push('/budgets/list')
+}
+
 export const editBudget = (id, formValues) => async dispatch => {
-    const response = await budgets.patch(`/budgets/${id}`, formValues)
+    const response = await budgets.post(`/update`, {...formValues, id })
 
     dispatch({
         type: EDIT_BUDGET,
@@ -92,16 +93,7 @@ export const editBudget = (id, formValues) => async dispatch => {
     history.push('/budgets/list')
 }
 
-export const deleteBudget = id => async dispatch => {
-    await budgets.delete(`/budgets/${id}`)
 
-    dispatch({
-        type: DELETE_BUDGET,
-        payload: id
-    })
-
-    history.push('/budgets/list')
-}
 
 export const createTransaction = formValues => async (dispatch, getState) => {
     const { userId } = getState().auth
