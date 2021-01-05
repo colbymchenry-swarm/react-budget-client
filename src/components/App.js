@@ -3,12 +3,11 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Header from './Header'
 import history from '../history'
-import Dashboard from './pages/Dashboard'
-import ListBudgets from './pages/ListBudgets'
-import CreateBudget from './pages/CreateBudget'
-import EditBudget from './pages/EditBudget'
-import CreateTransaction from './pages/CreateTransaction'
-import CreateIncome from './pages/CreateIncome'
+import Dashboard from './pages/dashboard'
+import ListBudgets from './pages/budgets'
+import CreateBudget from './pages/budgets/create'
+import EditBudget from './pages/budgets/edit'
+import CreateTransaction from './pages/transactions/create'
 
 class App extends React.Component {
     render() {
@@ -23,7 +22,6 @@ class App extends React.Component {
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/create" exact component={CreateBudget} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/edit/:id" exact component={EditBudget} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/transactions/create" exact component={CreateTransaction} />
-                            <PrivateRoute authed={this.props.isSignedIn} path="/income/create" exact component={CreateIncome} />
                         </Switch>
                     </div>
                 </Router>

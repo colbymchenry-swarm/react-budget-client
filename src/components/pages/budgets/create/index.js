@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { createBudget } from '../../actions'
+import { createBudget } from '../../../../actions'
 
 class CreateBudget extends React.Component {
 

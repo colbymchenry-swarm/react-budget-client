@@ -1,7 +1,7 @@
 import { map } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
-import { editBudget, fetchBudget, deleteBudget } from '../../actions'
+import { editBudget, fetchBudget, deleteBudget } from '../../../../actions'
 
 class EditBudget extends React.Component {
     state = {

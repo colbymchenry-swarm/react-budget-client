@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { createUser } from '../../actions'
+import { createUser } from '../../../actions'
+import Overview from './comps/Overview'
+import ListBudgets from './comps/ListBudgets'
 
 class Dashboard extends React.Component {
 
@@ -11,7 +13,11 @@ class Dashboard extends React.Component {
 
     render(){
         return (
-            <div>Dashboard</div>
+            <React.Fragment>
+                <Overview />
+                <br />
+                <ListBudgets />
+            </React.Fragment>
         )
     }
 }

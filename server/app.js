@@ -78,7 +78,7 @@ server.listen(4000);
 function createTables() {
   database.query('CREATE TABLE IF NOT EXISTS users (google_id varchar(25) NOT NULL, monthly_income double, PRIMARY KEY (google_id))')
   database.query('CREATE TABLE IF NOT EXISTS budgets (id int NOT NULL AUTO_INCREMENT, name varchar(255), amount double, fixed bool, google_id varchar(25) NOT NULL, PRIMARY KEY (id))')
-  database.query('CREATE TABLE IF NOT EXISTS transactions (id int NOT NULL AUTO_INCREMENT, budget_id int, amount double, timestamp DATE, google_id varchar(25) NOT NULL, PRIMARY KEY (id))')
+  database.query('CREATE TABLE IF NOT EXISTS transactions (id int NOT NULL AUTO_INCREMENT, budget_id int, amount double, timestamp DATE, description TEXT, google_id varchar(25) NOT NULL, PRIMARY KEY (id))')
 }
 
 function makeDb( config ) {

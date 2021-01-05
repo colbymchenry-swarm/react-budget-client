@@ -17,6 +17,7 @@ import {
     FETCH_MONTHLY_INCOME
 } from './types'
 
+import transactions from '../apis/transactions'
 import budgets from '../apis/budgets'
 import users from '../apis/users'
 import history from '../history'
@@ -33,7 +34,6 @@ export const signOut = () => {
         type: SIGN_OUT
     }
 }
-
 
 export const createUser = (formValues) => async (dispatch, getState) => {
     const { userId } = getState().auth
@@ -97,8 +97,7 @@ export const editBudget = (id, formValues) => async dispatch => {
 
 export const createTransaction = formValues => async (dispatch, getState) => {
     const { userId } = getState().auth
-    const date = new Date().getTime()
-    const response = await budgets.post('/transactions', { ...formValues, userId, date })
+    const response = await transactions.post('/', { ...formValues, google_id: userId })
 
     dispatch({
         type: CREATE_TRANSACTION,
@@ -109,7 +108,7 @@ export const createTransaction = formValues => async (dispatch, getState) => {
 }
 
 export const deleteTransaction = id => async dispatch => {
-    await budgets.delete(`/transactions/${id}`)
+    await transactions.post('/delete', { id })
 
     dispatch({
         type: DELETE_TRANSACTION,
@@ -119,8 +118,9 @@ export const deleteTransaction = id => async dispatch => {
     history.push('/dashboard')
 }
 
-export const fetchTransactions = () => async dispatch => {
-    const response = await budgets.get('/transactions')
+export const fetchTransactions = () => async (dispatch, getState) => {
+    const { userId } = getState().auth
+    const response = await transactions.get('/list', { params: { google_id: userId } })
 
     dispatch({
         type: FETCH_TRANSACTIONS,
@@ -130,121 +130,66 @@ export const fetchTransactions = () => async dispatch => {
 
 
 export const createIncome = formValues => async (dispatch, getState) => {
-    const { userId } = getState().auth
-    const date = new Date().getTime()
-    const response = await budgets.post('/incomes', { ...formValues, userId, date })
+    // const { userId } = getState().auth
+    // const date = new Date().getTime()
+    // const response = await budgets.post('/incomes', { ...formValues, userId, date })
 
-    dispatch({
-        type: CREATE_INCOME,
-        payload: response.data
-    })
+    // dispatch({
+    //     type: CREATE_INCOME,
+    //     payload: response.data
+    // })
 
-    history.push('/dashboard')
+    // history.push('/dashboard')
 }
 
 export const fetchIncomes = () => async dispatch => {
-    const response = await budgets.get('/incomes')
+    // const response = await budgets.get('/incomes')
 
-    dispatch({
-        type: FETCH_INCOMES,
-        payload: response.data
-    })
+    // dispatch({
+    //     type: FETCH_INCOMES,
+    //     payload: response.data
+    // })
 }
 
 export const deleteIncome = id => async dispatch => {
-    await budgets.delete(`/incomes/${id}`)
+    // await budgets.delete(`/incomes/${id}`)
 
-    dispatch({
-        type: DELETE_INCOME,
-        payload: id
-    })
+    // dispatch({
+    //     type: DELETE_INCOME,
+    //     payload: id
+    // })
 
-    history.push('/dashboard')
+    // history.push('/dashboard')
 }
 
 export const setMonthlyIncome = (id, formValues) => async (dispatch, getState) => {
-    const { userId } = getState().auth
-    let response = null;
+    // const { userId } = getState().auth
+    // let response = null;
 
-    if(id !== null) {
-        response = await budgets.patch(`/users/${id}`, { ...formValues, userId })
-    } else {
-        response = await budgets.post(`/users`, { ...formValues, userId })
-    }
+    // if(id !== null) {
+    //     response = await budgets.patch(`/users/${id}`, { ...formValues, userId })
+    // } else {
+    //     response = await budgets.post(`/users`, { ...formValues, userId })
+    // }
 
-    dispatch({
-        type: SET_MONTHLY_INCOME,
-        payload: response.data
-    })
-
+    // dispatch({
+    //     type: SET_MONTHLY_INCOME,
+    //     payload: response.data
+    // })
 }
 
 export const fetchMonthlyIncome = (id) => async dispatch => {
-    try {
-        const response = await budgets.get(`/users/${id}`).then(({json}) => {
-            if(json.data.statusCode != 200) {
-                // invalid
-            }
-         })
-        dispatch({
-            type: FETCH_MONTHLY_INCOME,
-            payload: response.data
-        })
-    } catch (err) {
-        console.log(err)
-    }
-
-   
+    // try {
+    //     const response = await budgets.get(`/users/${id}`).then(({json}) => {
+    //         if(json.data.statusCode != 200) {
+    //             // invalid
+    //         }
+    //      })
+    //     dispatch({
+    //         type: FETCH_MONTHLY_INCOME,
+    //         payload: response.data
+    //     })
+    // } catch (err) {
+    //     console.log(err)
+    // }
 }
-
-
-
-// export const createStream = formValues => async (dispatch, getState) => {
-//     const { userId } = getState().auth
-//     const response = await streams.post('/streams', { ...formValues, userId })
-
-//     dispatch({
-//         type: CREATE_STREAM,
-//         payload: response.data
-//     })
-//     // this is how we navigate the user around
-//     history.push('/')
-// }
-
-// export const fetchStreams = () => async dispatch => {
-//     const response = await streams.get('/streams')
-
-//     dispatch({
-//         type: FETCH_STREAMS,
-//         payload: response.data
-//     })
-// }
-
-// export const fetchStream = id => async dispatch => {
-//     const response = await streams.get(`/streams/${id}`)
-
-//     dispatch({
-//         type: FETCH_STREAM,
-//         payload: response.data
-//     })
-// }
-
-// export const deleteStream = id => async dispatch => {
-//     await streams.delete(`/streams/${id}`)
-
-//     dispatch({
-//         type: DELETE_STREAM,
-//         payload: id
-//     })
-// }
-
-// export const editStream = (id, formValues) => async dispatch => {
-//     const response = await streams.patch(`/streams/${id}`, formValues)
-
-//     dispatch({
-//         type: EDIT_STREAM,
-//         payload: response.data
-//     })
-
-//     history.push('/')
-// }

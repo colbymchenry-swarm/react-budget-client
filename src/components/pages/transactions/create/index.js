@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { createTransaction, fetchBudgets } from '../../actions'
+import { createTransaction, fetchBudgets } from '../../../../actions'
 
 class CreateTransaction extends React.Component {
 
@@ -8,6 +8,7 @@ class CreateTransaction extends React.Component {
         super(props)
 
         this.amountRef = React.createRef()
+        this.descriptionRef = React.createRef()
 
         this.state = {
             selectedBudget: null,
@@ -23,8 +24,9 @@ class CreateTransaction extends React.Component {
         e.preventDefault()
   
         let formValues = {
-            category: this.state.selectedBudget,
+            budget_id: this.state.selectedBudget,
             amount: this.amountRef.current.value,
+            description: this.descriptionRef.current.value
         }
 
         this.props.createTransaction(formValues)
@@ -39,8 +41,10 @@ class CreateTransaction extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (!state.synced) {
+            let default_budget = props.budgets.find(budget => !budget.fixed)
+            // -1 for a budget id for a transaction means it is an the unknown category
             return {
-                selectedBudget: props.budgets[0].id,
+                selectedBudget: default_budget === undefined ? -1 : default_budget.id,
                 synced: true
             }
         } else {
@@ -54,7 +58,7 @@ class CreateTransaction extends React.Component {
         }
 
         let dropdown = this.props.budgets.map(budget => {
-            if (budget.userId === this.props.userId && !budget.fixed) {
+            if (budget.google_id === this.props.userId && !budget.fixed) {
                 return (
                     <option key={budget.id} value={budget.id}>{budget.name}</option>
                 )
@@ -73,11 +77,16 @@ class CreateTransaction extends React.Component {
                             <label>Budget</label>
                             <select className="form-control" onChange={e => this.handleChange(e)}>
                                 {dropdown}
+                                <option key={-1} value={-1}>Unknown</option>
                             </select>
                         </div>
                         <div className="form-group">
                             <label>Amount</label>
                             <input type="currency" ref={this.amountRef} className="form-control" placeholder="$50.00" />
+                        </div>
+                        <div className="form-group">
+                            <label>Description</label>
+                            <input type="text" ref={this.descriptionRef} className="form-control" placeholder="Starbucks" />
                         </div>
                         <button type="submit" className="btn btn-primary float-right">Submit</button>
                     </form>

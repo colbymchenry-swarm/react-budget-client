@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchBudgets, fetchTransactions, fetchIncomes } from '../../../actions'
-import MonthlyIncome from './MonthlyIncome'
+import { fetchBudgets, fetchTransactions, fetchIncomes } from '../../../../actions'
 
 class Overview extends React.Component {
 
@@ -18,13 +17,13 @@ class Overview extends React.Component {
 
         this.props.transactions.forEach(transaction => {
             let date = new Date(transaction.date)
-            if (date.getMonth() === now.getMonth() && transaction.userId == this.props.userId) {
+            if (date.getMonth() === now.getMonth() && transaction.google_id == this.props.userId) {
                 totalSpending += parseInt(transaction.amount)
             }
         })
 
         this.props.budgets.forEach(budget => {
-            if (budget.userId == this.props.userId && !budget.fixed) {
+            if (budget.google_id == this.props.userId && !budget.fixed) {
                 totalBudget += parseInt(budget.amount)
             }
         })
@@ -58,7 +57,7 @@ class Overview extends React.Component {
 
                 <div className="card-body">
 
-                    <MonthlyIncome />
+                    
 
                     <table className="table">
                         <tbody>

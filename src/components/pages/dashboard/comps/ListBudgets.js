@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchBudgets, fetchTransactions } from '../../../actions'
+import { fetchBudgets, fetchTransactions } from '../../../../actions'
 import { Link } from 'react-router-dom'
 
 class ListBudgets extends React.Component {
@@ -14,9 +14,9 @@ class ListBudgets extends React.Component {
         let now = new Date()
 
         this.props.transactions.forEach(transaction => {
-            let date = new Date(transaction.date)
-            if (date.getMonth() === now.getMonth() && transaction.category == budget.id 
-                && transaction.userId == this.props.userId) {
+            let date = new Date(transaction.timestamp)
+            if (date.getMonth() === now.getMonth() && transaction.budget_id == budget.id 
+                && transaction.google_id == this.props.userId) {
                     totalSpent += parseInt(transaction.amount)
             }
         })
@@ -41,7 +41,7 @@ class ListBudgets extends React.Component {
         let todayPercentage = (new Date().getDate() / this.daysInThisMonth()) * 100
 
        return this.props.budgets.map(budget => {
-           if (!budget.fixed && budget.userId === this.props.userId) {
+           if (!budget.fixed && budget.google_id === this.props.userId) {
                let { percentage, totalSpent } = this.budgetData(budget)
             return (
                 <tr key={budget.id}>
