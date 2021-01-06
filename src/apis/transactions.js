@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL: 'http://localhost:4000/transactions'
+    baseURL: `${process.env.REACT_APP_SERVERURL}/transactions`
 })
