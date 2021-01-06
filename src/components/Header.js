@@ -28,6 +28,9 @@ class Header extends React.Component {
                         <li className="nav-item">
                             <Link to="/budgets/list" className="nav-link" onClick={this.clickedLink}>Budgets</Link>
                         </li>
+                        <li className="nav-item">
+                            {process.env.SERVER_URL}
+                        </li>
                         {/* <li className="nav-item">
                             <Link to="/income/create" className="nav-link" onClick={this.clickedLink}>Add Income</Link>
                         </li> */}
