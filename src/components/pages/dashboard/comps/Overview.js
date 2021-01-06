@@ -27,7 +27,7 @@ class Overview extends React.Component {
         })
 
         this.props.budgets.forEach(budget => {
-            if (!budget.fixed) {
+            if (budget.id !== undefined && !budget.fixed) {
                 totalBudget += parseInt(budget.amount)
             }
         })
@@ -54,7 +54,7 @@ class Overview extends React.Component {
         let totalBudget = 0
         // add up fixed budget amounts
         this.props.budgets.forEach(budget => {
-            if (parseInt(budget.google_id) === parseInt(this.props.userId)) {
+            if (budget.id !== undefined && parseInt(budget.google_id) === parseInt(this.props.userId)) {
                 totalBudget += parseInt(budget.amount)
             }
         })
