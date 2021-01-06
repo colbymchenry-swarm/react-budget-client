@@ -47,7 +47,7 @@ export const createUser = (formValues) => async (dispatch, getState) => {
 export const fetchUser = () => async (dispatch, getState) => {
     const { userId } = getState().auth
     const response = await users.get('/get', { params: { google_id: userId } })
-
+    
     dispatch({
         type: FETCH_USER,
         payload: response.data

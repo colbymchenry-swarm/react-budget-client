@@ -7,7 +7,8 @@ class SetIncome extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            monthly_income: 0
+            monthly_income: 0,
+            synced: false
         }
     }
 
@@ -23,9 +24,15 @@ class SetIncome extends React.Component {
         })
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if(this.state.monthly_income === 0) 
-            this.setState({monthly_income: this.props.monthly_income })
+    static getDerivedStateFromProps (props, state) {
+        if(state.synced) {
+            return { ...state }
+        } else {
+            if(props.monthly_income !== state.monthly_income) {
+                return { monthly_income: props.monthly_income, synced: true }
+            }
+        }
+        return null
     }
 
     render() {
@@ -49,7 +56,7 @@ class SetIncome extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { monthly_income: state.user.monthly_income }
+    return { monthly_income: state.user.monthly_income === undefined ? 0 : state.user.monthly_income }
 }
 
 export default connect(mapStateToProps, { fetchUser, createUser })(SetIncome)

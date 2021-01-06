@@ -15,6 +15,7 @@ class ListBudgets extends React.Component {
 
 
        return this.props.budgets.map(budget => {
+            if(budget.id === undefined) return undefined
             let fixedClass = budget.fixed ? 'fas fa-check' : 'fas fa-times'
             let fixedStyle = budget.fixed ? { color: 'green' } : { color: 'red' }
             return (
