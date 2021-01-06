@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL: `${process.env.SERVER_URL}/transactions`
+    baseURL: 'http://35.227.71.146/transactions'
 })
