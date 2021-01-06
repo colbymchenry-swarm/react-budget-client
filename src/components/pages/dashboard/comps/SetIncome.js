@@ -1,4 +1,3 @@
-import { isBuffer } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchUser, createUser } from '../../../../actions'

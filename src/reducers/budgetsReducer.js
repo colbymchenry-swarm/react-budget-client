@@ -7,7 +7,7 @@ import {
     FETCH_BUDGET
  } from '../actions/types'
 
-export default (state = {}, action) => {
+const handler = (state = {}, action) => {
     switch (action.type) {
         case CREATE_BUDGET:
             return { ...state, [action.payload.id]: action.payload }
@@ -22,3 +22,5 @@ export default (state = {}, action) => {
         default: return state
     }
 }
+
+export default handler

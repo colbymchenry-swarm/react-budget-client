@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchTransactions, fetchBudget, deleteTransaction } from '../../../actions'
-import { Link } from 'react-router-dom'
 
 class ListTransactions extends React.Component {
     componentDidMount() {
@@ -15,7 +14,7 @@ class ListTransactions extends React.Component {
         }
 
        return this.props.transactions.map(transaction => {
-           if (transaction.budget_id == this.props.match.params.id) {
+           if (parseInt(transaction.budget_id) === parseInt(this.props.match.params.id)) {
                let date = new Date(transaction.timestamp)
             return (
                 <tr key={transaction.id}>
@@ -25,7 +24,7 @@ class ListTransactions extends React.Component {
                     <td onClick={e => this.props.deleteTransaction(transaction.id, this.props.budget.id)}><i class="fas fa-trash" style={{ color: 'red' }}></i></td>
                 </tr>
             )
-           }
+           } else return undefined
        })
     }
 

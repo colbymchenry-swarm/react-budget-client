@@ -21,13 +21,13 @@ class Overview extends React.Component {
 
         this.props.transactions.forEach(transaction => {
             let date = new Date(transaction.timestamp)
-            if (date.getMonth() === now.getMonth() && transaction.google_id == this.props.userId) {
+            if (date.getMonth() === now.getMonth()) {
                 totalSpending += parseInt(transaction.amount)
             }
         })
 
         this.props.budgets.forEach(budget => {
-            if (budget.google_id == this.props.userId && !budget.fixed) {
+            if (!budget.fixed) {
                 totalBudget += parseInt(budget.amount)
             }
         })
@@ -45,8 +45,7 @@ class Overview extends React.Component {
         // total fun money spent
         this.props.transactions.forEach(transaction => {
             let date = new Date(transaction.timestamp)
-            if (date.getMonth() === now.getMonth() && transaction.budget_id == -1
-                && transaction.google_id == this.props.userId) {
+            if (date.getMonth() === now.getMonth() && parseInt(transaction.budget_id) === -1) {
                     funMoneySpent += parseInt(transaction.amount)
             }
         })
@@ -55,7 +54,7 @@ class Overview extends React.Component {
         let totalBudget = 0
         // add up fixed budget amounts
         this.props.budgets.forEach(budget => {
-            if (budget.google_id == this.props.userId) {
+            if (parseInt(budget.google_id) === parseInt(this.props.userId)) {
                 totalBudget += parseInt(budget.amount)
             }
         })

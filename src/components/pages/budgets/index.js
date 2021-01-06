@@ -15,9 +15,8 @@ class ListBudgets extends React.Component {
 
 
        return this.props.budgets.map(budget => {
-           if (budget.google_id === this.props.userId) {
-               let fixedClass = budget.fixed ? 'fas fa-check' : 'fas fa-times'
-               let fixedStyle = budget.fixed ? { color: 'green' } : { color: 'red' }
+            let fixedClass = budget.fixed ? 'fas fa-check' : 'fas fa-times'
+            let fixedStyle = budget.fixed ? { color: 'green' } : { color: 'red' }
             return (
                 <tr key={budget.id}>
                     <th scope="row"><Link to={`/budgets/edit/${budget.id}`}>{budget.name}</Link></th>
@@ -25,7 +24,6 @@ class ListBudgets extends React.Component {
                     <td className="text-center"><i className={fixedClass} style={fixedStyle}></i></td>
                 </tr>
             )
-           }
        })
     }
 

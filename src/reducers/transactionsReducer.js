@@ -5,7 +5,7 @@ import {
     FETCH_TRANSACTIONS
  } from '../actions/types'
 
-export default (state = {}, action) => {
+const handler = (state = {}, action) => {
     switch (action.type) {
         case CREATE_TRANSACTION:
             return { ...state, [action.payload.id]: action.payload }
@@ -16,3 +16,5 @@ export default (state = {}, action) => {
         default: return state
     }
 }
+
+export default handler

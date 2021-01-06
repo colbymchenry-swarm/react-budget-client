@@ -51,11 +51,11 @@ class CreateTransaction extends React.Component {
         }
 
         let dropdown = this.props.budgets.map(budget => {
-            if (budget.google_id === this.props.userId && !budget.fixed) {
+            if (!budget.fixed) {
                 return (
                     <option key={budget.id} value={budget.id}>{budget.name}</option>
                 )
-            }
+            } else return undefined
         })
 
         return (

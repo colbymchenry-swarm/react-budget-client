@@ -9,13 +9,8 @@ import {
     CREATE_TRANSACTION,
     DELETE_TRANSACTION,
     FETCH_TRANSACTIONS,
-    CREATE_INCOME,
-    DELETE_INCOME,
-    FETCH_INCOMES,
     CREATE_USER,
     FETCH_USER,
-    SET_MONTHLY_INCOME,
-    FETCH_MONTHLY_INCOME
 } from './types'
 
 import transactions from '../apis/transactions'
@@ -39,8 +34,6 @@ export const signOut = () => {
 export const createUser = (formValues) => async (dispatch, getState) => {
     const { userId } = getState().auth
     const response = await users.post('/', { ...formValues, google_id: userId })
-
-    console.log(response.data)
 
     dispatch({
         type: CREATE_USER,

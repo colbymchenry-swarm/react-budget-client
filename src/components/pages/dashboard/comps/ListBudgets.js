@@ -15,8 +15,7 @@ class ListBudgets extends React.Component {
 
         this.props.transactions.forEach(transaction => {
             let date = new Date(transaction.timestamp)
-            if (date.getMonth() === now.getMonth() && transaction.budget_id == budget.id 
-                && transaction.google_id == this.props.userId) {
+            if (date.getMonth() === now.getMonth() && parseInt(transaction.budget_id) === parseInt(budget.id)) {
                     totalSpent += parseInt(transaction.amount)
             }
         })
@@ -41,7 +40,7 @@ class ListBudgets extends React.Component {
         let todayPercentage = (new Date().getDate() / this.daysInThisMonth()) * 100
 
        return this.props.budgets.map(budget => {
-           if (!budget.fixed && budget.google_id === this.props.userId) {
+           if (!budget.fixed) {
                let { percentage, totalSpent } = this.budgetData(budget)
             return (
                 <tr key={budget.id}>
@@ -59,7 +58,7 @@ class ListBudgets extends React.Component {
                         <small className="form-text text-muted">${budget.amount}</small>
                     </td>
                 </tr>
-            )}
+            )} else return undefined
        })
     }
 
