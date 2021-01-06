@@ -40,6 +40,8 @@ class ListBudgets extends React.Component {
         let todayPercentage = (new Date().getDate() / this.daysInThisMonth()) * 100
 
        return this.props.budgets.map(budget => {
+            if(budget.id === undefined) return undefined
+
            if (!budget.fixed) {
                let { percentage, totalSpent } = this.budgetData(budget)
             return (
