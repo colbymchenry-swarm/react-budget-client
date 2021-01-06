@@ -10,6 +10,7 @@ import CreateBudget from './pages/budgets/create'
 import EditBudget from './pages/budgets/edit'
 import CreateTransaction from './pages/transactions/create'
 import ListTransactions from './pages/transactions'
+import LoginPage from './LoginPage'
 
 class App extends React.Component {
     render() {
@@ -19,6 +20,7 @@ class App extends React.Component {
                     <Header />
                     <div className="container" style={{ paddingTop: '2em', paddingBottom: '8em' }}>
                         <Switch>
+                            <Route path='/' exact component={LoginPage} />
                             <PrivateRoute authed={this.props.isSignedIn} path='/dashboard' exact component={Dashboard} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/list" exact component={ListBudgets} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/create" exact component={CreateBudget} />
