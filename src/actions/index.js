@@ -19,11 +19,13 @@ import users from '../apis/users'
 import history from '../history'
 
 //
-export const signIn = userId => {
-   return {
+export const signIn = userId => dispatch => {
+   dispatch({
         type: SIGN_IN,
         payload: userId
-    }
+    })
+
+    history.push('/dashboard')
 }
 
 export const signOut = () => {
