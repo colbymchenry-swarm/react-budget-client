@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL: `${process.env.REACT_APP_SERVERURL}/budgets`
+    baseURL: `${process.env.SERVER_URL}/budgets`
 })
