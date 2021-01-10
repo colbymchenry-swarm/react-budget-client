@@ -15,6 +15,7 @@ import Income from './pages/incomes'
 import LoginPage from './LoginPage'
 
 class App extends React.Component {
+    //
     render() {
         return (
             <div>
