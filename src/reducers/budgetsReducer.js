@@ -18,7 +18,7 @@ const handler = (state = {}, action) => {
         case FETCH_BUDGETS:
             return { ...state, ..._.mapKeys(action.payload, 'id') }
         case DELETE_BUDGET:
-            return _.omit(state, action.payload)
+            return _.omit(state, action.payload.id)
         default: return state
     }
 }

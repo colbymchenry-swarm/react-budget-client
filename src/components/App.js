@@ -7,6 +7,7 @@ import history from '../history'
 import Dashboard from './pages/dashboard'
 import ListBudgets from './pages/budgets'
 import CreateBudget from './pages/budgets/create'
+import DeleteBudget from './pages/budgets/delete'
 import EditBudget from './pages/budgets/edit'
 import CreateTransaction from './pages/transactions/create'
 import ListTransactions from './pages/transactions'
@@ -28,6 +29,7 @@ class App extends React.Component {
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/list" exact component={ListBudgets} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/create" exact component={CreateBudget} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/edit/:id" exact component={EditBudget} />
+                            <PrivateRoute authed={this.props.isSignedIn} path="/budgets/delete/:id" exact component={DeleteBudget} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/transactions/create" exact component={CreateTransaction} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/transactions/view/:id" exact component={ListTransactions} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/income/create" exact component={CreateIncome} />

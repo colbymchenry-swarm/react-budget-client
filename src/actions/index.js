@@ -89,12 +89,12 @@ export const fetchBudgets = () => async (dispatch, getState) => {
     })
 }
 
-export const deleteBudget = id => async dispatch => {
-    await budgets.post('/delete', { id })
+export const deleteBudget = (id, transferId) => async dispatch => {
+    await budgets.post('/delete', { id, transferId })
 
     dispatch({
         type: DELETE_BUDGET,
-        payload: id
+        payload: { id, transferId }
     })
 
     history.push('/budgets/list')
