@@ -37,8 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 var database = makeDb({
   host     : 'localhost',
   user     : 'root',
-  password : 'root',
-  port     : 8889,
+  password : '90Percent%',
+  port     : 3306,
   database : 'budget'
 })
 
@@ -46,6 +46,8 @@ createTables()
 
 app.use(function(req, res, next) {
   res.locals.connection = database;
+  //res.header("Access-Control-Allow-Origin", "https://react-budget-client.vercel.app");
+  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
@@ -73,7 +75,7 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 var server = http.createServer(app);
-server.listen(4000);
+server.listen(4000, "0.0.0.0");
 
 function createTables() {
   database.query('CREATE TABLE IF NOT EXISTS users (google_id varchar(25) NOT NULL, monthly_income double, PRIMARY KEY (google_id))')
