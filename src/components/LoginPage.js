@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { signIn, signOut } from '../actions'
 
-class GoogleAuth extends React.Component {
+class LoginPage extends React.Component {
     
     componentDidMount() {
         window.gapi.load('client:auth2', () => {
@@ -38,14 +38,14 @@ class GoogleAuth extends React.Component {
             return null
         } else if (this.props.isSignedIn) {
             return (
-                <button className="btn btn-block btn-social btn-lg btn-google float-right btn-sm" style={{ width: 'auto' }} onClick={this.onSignOutClick}>
+                <button className="btn btn-social btn-lg btn-google" style={{ width: 'auto' }} onClick={this.onSignOutClick}>
                     <i className="fab fa-google-plus-g" />
                     Sign Out
                 </button>
             )
         } else {
             return (
-                <button className="btn btn-block btn-social btn-lg btn-google float-right btn-sm" style={{ width: 'auto' }} onClick={this.onSignInClick}>
+                <button className="btn btn-social btn-lg btn-google" style={{ width: 'auto' }} onClick={this.onSignInClick}>
                     <i className="fab fa-google-plus-g" />
                     Sign In
                 </button>
@@ -55,9 +55,11 @@ class GoogleAuth extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
-                {this.renderAuthButton()}
-            </React.Fragment>
+            <div className="row" style={{ paddingTop: '30vh'}}>
+                <div className="col-12 text-center">
+                    {this.renderAuthButton()}
+                </div>
+            </div>
         )
     }
 }
@@ -66,4 +68,4 @@ const mapStateToProps = (state) => {
     return { isSignedIn: state.auth.isSignedIn }
 }
 
-export default connect(mapStateToProps, { signIn, signOut })(GoogleAuth)
+export default connect(mapStateToProps, { signIn, signOut })(LoginPage)

@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var database = makeDb({
-  host     : 'localhost',
+  host     : '34.66.167.236',
   user     : 'root',
   password : '90Percent%',
   port     : 3306,

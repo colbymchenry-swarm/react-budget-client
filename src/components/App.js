@@ -2,6 +2,7 @@ import React from 'react'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Header from './Header'
+import Footer from './Footer'
 import history from '../history'
 import Dashboard from './pages/dashboard'
 import ListBudgets from './pages/budgets'
@@ -9,6 +10,7 @@ import CreateBudget from './pages/budgets/create'
 import EditBudget from './pages/budgets/edit'
 import CreateTransaction from './pages/transactions/create'
 import ListTransactions from './pages/transactions'
+import LoginPage from './LoginPage'
 
 class App extends React.Component {
     render() {
@@ -16,8 +18,9 @@ class App extends React.Component {
             <div>
                 <Router history={history}>
                     <Header />
-                    <div className="container" style={{ paddingTop: '2em' }}>
+                    <div className="container" style={{ paddingTop: '2em', paddingBottom: '8em' }}>
                         <Switch>
+                            <Route path='/' exact component={LoginPage} />
                             <PrivateRoute authed={this.props.isSignedIn} path='/dashboard' exact component={Dashboard} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/list" exact component={ListBudgets} />
                             <PrivateRoute authed={this.props.isSignedIn} path="/budgets/create" exact component={CreateBudget} />
@@ -26,6 +29,7 @@ class App extends React.Component {
                             <PrivateRoute authed={this.props.isSignedIn} path="/transactions/view/:id" exact component={ListTransactions} />
                         </Switch>
                     </div>
+                    <Footer />
                 </Router>
             </div>
         )
