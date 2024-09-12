@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { editBudget, fetchBudget, deleteBudget } from '../../../../actions'
 
 class EditBudget extends React.Component {
@@ -39,10 +40,6 @@ class EditBudget extends React.Component {
         this.props.editBudget(this.props.budget.id, formValues)
     }
 
-    deleteBudget = () => {
-        this.props.deleteBudget(this.props.budget.id)
-    }
-
     render() {
         return (
             <div className="card">
@@ -52,7 +49,7 @@ class EditBudget extends React.Component {
                             <p style={{ marginTop: '4px', height: '8px' }}>Edit Budget</p>
                         </div>
                         <div className="col-6">
-                            <button type="button" className="btn btn-danger btn-sm float-right" onClick={this.deleteBudget}>Delete</button>
+                            <Link to={`/budgets/delete/${this.props.match.params.id}`} className="btn btn-danger btn-sm float-right">Delete</Link>
                         </div>
                     </div>
                 </div>

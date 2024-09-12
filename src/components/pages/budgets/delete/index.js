@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { createTransaction, fetchBudgets } from '../../../../actions'
+import { deleteBudget, fetchBudgets } from '../../../../actions'
 
-class CreateTransaction extends React.Component {
+class DeleteBudget extends React.Component {
 
     constructor(props) {
         super(props)
@@ -11,7 +11,7 @@ class CreateTransaction extends React.Component {
         this.descriptionRef = React.createRef()
 
         this.state = {
-            selectedBudget: -1
+            selectedBudget: -2
         }
     }
 
@@ -22,13 +22,7 @@ class CreateTransaction extends React.Component {
     submitForm = (e) => {
         e.preventDefault()
   
-        let formValues = {
-            budget_id: this.state.selectedBudget,
-            amount: this.amountRef.current.value,
-            description: this.descriptionRef.current.value
-        }
-
-        this.props.createTransaction(formValues)
+        this.props.deleteBudget(this.props.match.params.id, this.state.selectedBudget)
     }
 
     handleChange = e => {
@@ -39,10 +33,12 @@ class CreateTransaction extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.selectedBudget === -1) {
+        if(this.state.selectedBudget === -2) {
             if (this.props.budgets.length > 0)  {
-                let default_budget = this.props.budgets.find(budget => !budget.fixed)
+                let default_budget = this.props.budgets.find(budget => !budget.fixed && parseInt(budget.id) !== parseInt(this.props.match.params.id))
                 this.setState({selectedBudget: default_budget === undefined ? -1 : default_budget.id })
+            } else {
+                this.setState({selectedBudget: -1 })
             }
         }
     }
@@ -53,7 +49,7 @@ class CreateTransaction extends React.Component {
         }
 
         let dropdown = this.props.budgets.map(budget => {
-            if (budget !== undefined && !budget.fixed) {
+            if (budget !== undefined && !budget.fixed && parseInt(budget.id) !== parseInt(this.props.match.params.id)) {
                 return (
                     <option key={budget.id} value={budget.id}>{budget.name}</option>
                 )
@@ -63,25 +59,18 @@ class CreateTransaction extends React.Component {
         return (
             <div className="card">
                 <div className="card-header">
-                    New Transaction
+                    Delete Budget
                 </div>
 
                 <div className="card-body">
                     <form onSubmit={this.submitForm}>
                         <div className="form-group">
-                            <label>Budget</label>
+                            <label>Transfer</label>
                             <select className="form-control" onChange={e => this.handleChange(e)}>
                                 {dropdown}
                                 <option key={-1} value={-1}>Fun Money</option>
                             </select>
-                        </div>
-                        <div className="form-group">
-                            <label>Amount</label>
-                            <input type="currency" ref={this.amountRef} className="form-control" placeholder="$50.00" />
-                        </div>
-                        <div className="form-group">
-                            <label>Description</label>
-                            <input type="text" ref={this.descriptionRef} className="form-control" placeholder="Starbucks" />
+                            <small className="form-text text-muted">Transfer all transactions this month to this budget.</small>
                         </div>
                         <button type="submit" className="btn btn-primary float-right">Submit</button>
                     </form>
@@ -96,4 +85,4 @@ const mapStateToProps = state => {
     return { budgets: Object.values(state.budgets), userId: state.auth.userId }
 }
 
-export default connect(mapStateToProps, { createTransaction, fetchBudgets })(CreateTransaction)
+export default connect(mapStateToProps, { deleteBudget, fetchBudgets })(DeleteBudget)

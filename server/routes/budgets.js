@@ -45,7 +45,7 @@ router.post('/update', async (req, res, next) => {
 /* DELETE budget */
 router.post('/delete', async (req, res, next) => {
 	try {
-		await deleteBudget(res.locals.connection, req.body.id)
+		await deleteBudget(res.locals.connection, req.body)
 	} catch(err) {
 		console.log(err)
 		res.send(JSON.stringify({ success: false, msg: 'Failed to delete budget.' }))
@@ -75,8 +75,9 @@ updateBudget = async (db, { id, name, amount, fixed }) => {
 	await db.query(`UPDATE budgets SET name='${name}', amount='${amount}', fixed='${fixed}' WHERE id='${id}'`) 
 }
 
-deleteBudget = async (db, id) => {
+deleteBudget = async (db, { id, transferId }) => {
 	await db.query(`DELETE FROM budgets WHERE id='${id}'`) 
+	await db.query(`UPDATE transactions SET budget_id='${transferId}' WHERE budget_id='${id}'`) 
 }
 
 
